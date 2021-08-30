@@ -9,6 +9,8 @@ import UIKit
 import SceneKit
 import ARKit
 
+//RECIPE CARD STRUCT
+
 struct Recipe {
     var id = ""
     var name = ""
@@ -22,6 +24,8 @@ struct Recipe {
     var cost_suggestion = ""
     var frugality_suggestion = ""
 }
+
+//HEX COLOR TO UICOLOR
 
 extension UIColor {
    convenience init(red: Int, green: Int, blue: Int) {
@@ -40,6 +44,8 @@ extension UIColor {
        )
    }
 }
+
+//RECIPE CARD DATA
 
 let recipe1 = Recipe(
     id: "recipe1",
@@ -237,8 +243,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         if let imageAnchor = anchor as? ARImageAnchor {
             
             let backgroundPlane = SCNPlane (width: 1000, height: 1000)
-            backgroundPlane.firstMaterial?.diffuse.contents = UIColor.black;
+           // backgroundPlane.firstMaterial?.diffuse.contents = UIColor.black;
             
+            
+//            BÜYÜK İHTİMALLE  BU KUTULAR TEK BİR FONKSİYONDA YAPILABİLİRDİ AMA
+//            MAALESEF BİLGİM YOK :D PROJE ZAMANI İÇİN UĞRAŞIYORUM.
+            
+//            HER BİR TAKİP EDİLEN KAR İÇİN 4 AYRI PUAN KUTU OLUŞTURUYORUZ.
+//            SEASONALİTYY, LOCALİTY, COST VE FRUGALİTY KARTLARI
             let firstBox = SCNPlane(
                 width: boxWidth,
                 height: boxHeight)
@@ -299,7 +311,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             
             
-            //SUGGESTIONS
+            //HER BİR KUTUNUN İÇİNE DE O TARİFİN DATASINDAN GELEN 4 FARKLI PUAN İÇİN TEXT NODEU OLUŞTURUYORUZ.
             let pointFontSize = 25
             
             let seasonalityText = SCNText(string: "", extrusionDepth: 0.2)
@@ -339,8 +351,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             frugalityText.alignmentMode = "center"
             frugalityText.flatness = 0.01
 
+            
+            
+//            BURADA RECİPENİN KENDİ RENGİ, PUANLARI VB GİBİ TANILMA İŞİ YAPIYORUZ.
             for recipe in recipes {
                 if (imageAnchor.referenceImage.name == recipe.id)  {
+                    
+                    
+//                    BURASI EN ÖNEMLİ PROJEDE EKSİK KISIM.
+//                    ASAGIDA SEASONLİTY POINT DEĞİŞKENİ GÖRÜNEN KARTLARIN TOPLAMI OLSUN İSTİYORUZ.
+                    
+//                    ÖRNEĞİN EKRANDA 3 KART GÖRÜNÜYOR BUNLARIN SEASONALİTY
+//                    PUANLARI 3-4-6 DİYELİM. TOPLAMDA 13 GÖSTERMEK İSTİYORUZ.
+//                    ŞUANKİ HALDE, SON GÖRÜNTÜLENEN KARTIN PUANI GELİYOR
+//                    VE TELEFONDA BAHSETTİĞİM GİBİ DE BİR KART GÖRÜNDÜKTEN SONRA
+//                    BİR DAHA O FONKSİYON ÇALIŞMADIĞI İÇİN HESAPLAMA OLMUYOR.
                     
                     seasonalityPoint = seasonalityPoint + recipe.seasonality
                     print(seasonalityPoint)
@@ -377,7 +402,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let topLimit = -Float(imageAnchor.referenceImage.physicalSize.height / 2.3)
             let verticalShift = Float(boxHeight + boxHeight / 10);
             
-            //TITLES IN AR
+            //TITLES IN AR // POSITIONING
             let seasonalityTitleNode = SCNNode()
             seasonalityTitleNode.eulerAngles.x = -.pi / 2
             seasonalityTitleNode.scale = SCNVector3(x:0.001, y:0.001, z:0.001)
